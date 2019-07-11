@@ -22,7 +22,7 @@ resource "aws_lb" "example" {
   ]
 }
 
-resource "aws_alb_listener" "http" {
+resource "aws_lb_listener" "http" {
   load_balancer_arn = aws_lb.example.arn
   port = 80
   protocol = "HTTP"
@@ -37,7 +37,7 @@ resource "aws_alb_listener" "http" {
   }
 }
 
-resource "aws_alb_listener" "https" {
+resource "aws_lb_listener" "https" {
   load_balancer_arn = aws_lb.example.arn
   port = "443"
   protocol = "HTTPS"
@@ -92,7 +92,7 @@ resource "aws_lb_target_group" "example" {
   depends_on = [aws_lb.example]
 }
 
-ewsource "aws_lb_listener_rule" "example" {
+resource "aws_lb_listener_rule" "example" {
   listener_arn = aws_lb_listener.https.arn
   priority = 100
 
