@@ -73,12 +73,15 @@ resource "aws_subnet" "private_ap_northeast_a" {
   vpc_id = aws_vpc.example.id
   cidr_block = "10.0.66.0/24"
   map_public_ip_on_launch = false
+
+  availability_zone = "ap-northeast-1a"
 }
 
 resource "aws_subnet" "private_ap_northeast_c" {
   vpc_id = aws_vpc.example.id
   cidr_block = "10.0.67.0/24"
   map_public_ip_on_launch = false
+  availability_zone = "ap-northeast-1c"
 }
 
 # aws_route_table private
@@ -86,14 +89,14 @@ resource "aws_route_table" "private_ap_northeast_a" {
   vpc_id = aws_vpc.example.id
 
   tags = {
-    Name = "private_route_table _ap_northeast_a"
+    Name = "private_route_table_ap_northeast_a"
   }
 }
 resource "aws_route_table" "private_ap_northeast_c" {
   vpc_id = aws_vpc.example.id
 
   tags = {
-    Name = "private_route_table _ap_northeast_c"
+    Name = "private_route_table_ap_northeast_c"
   }
 }
 
