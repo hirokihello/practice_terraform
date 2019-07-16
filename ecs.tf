@@ -1,5 +1,5 @@
 resource "aws_ecs_cluster" "example" {
-  name = "test_cluster"
+  name = "test-cluster"
 }
 
 resource "aws_ecs_task_definition" "example" {
@@ -16,24 +16,26 @@ resource "aws_ecs_service" "example" {
   name = "example"
   cluster = aws_ecs_cluster.example.arn
   task_definition = aws_ecs_task_definition.example.arn
-  desired_count = 2
+  desired_count = 1
   launch_type = "FARGATE"
   platform_version = "1.3.0"
   health_check_grace_period_seconds = 60
-
   network_configuration {
-    assign_public_ip = false
-    security_groups = [module.nginx_sg.security_group_id]
+    assign_public_ip = true
+    security_groups = [
+      module.http_sg.security_group_id,
+      module.https_sg.security_group_id
+    ]
     subnets = [
-      aws_subnet.private_ap_northeast_a.id,
-      aws_subnet.private_ap_northeast_c.id,
+      aws_subnet.public_ap_northeast_a.id,
+      aws_subnet.public_ap_northeast_c.id,
     ]
   }
 
   load_balancer {
     target_group_arn = aws_lb_target_group.example.arn
     container_name = "example"
-    container_port = 80
+    container_port = 3000
   }
 
   lifecycle {

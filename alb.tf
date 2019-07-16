@@ -28,12 +28,8 @@ resource "aws_lb_listener" "http" {
   protocol = "HTTP"
 
   default_action {
-    type = "fixed-response"
-    fixed_response {
-      content_type = "text/plain"
-      message_body = "これは「HTTP」です"
-      status_code = 200
-    }
+    target_group_arn = "${aws_lb_target_group.example.arn}"
+    type             = "forward"
   }
 }
 
@@ -45,13 +41,8 @@ resource "aws_lb_listener" "https" {
   ssl_policy = "ELBSecurityPolicy-2016-08"
 
   default_action {
-    type = "fixed-response"
-
-    fixed_response {
-      content_type = "text/plain"
-      message_body = "これは「HTTPS」です"
-      status_code = 200
-    }
+    target_group_arn = "${aws_lb_target_group.example.arn}"
+    type             = "forward"
   }
 }
 
@@ -94,7 +85,7 @@ resource "aws_lb_target_group" "example" {
 
 resource "aws_lb_listener_rule" "example" {
   listener_arn = aws_lb_listener.https.arn
-  priority = 100
+  priority = 1
 
   action {
     type = "forward"
